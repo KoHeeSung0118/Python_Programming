@@ -77,10 +77,20 @@ print(result)
 # 1️⃣ 바구니에 있는 과일의 단어 개수 세기
 words = ["apple", "banana", "apple", "cherry", "banana", "apple"]
 
+# 1) 클래식 for
+
 count = {}
 for word in words:
     count[word] = count.get(word, 0) + 1
 print({x : words.count(x) for x  in words })
+
+# 2) dict 컴프리헨션
+print({word: words.count(word) for word in set(words)})
+
+# 3) Counter: 요소 갯수를 자동으로 세어주는 딕셔너리
+from collections import Counter
+print(Counter(words))
+print(dict(Counter(words)))
                                     # ✅ {'apple': 3, 'banana': 2, 'cherry': 1}
 
 
@@ -103,10 +113,18 @@ print(dict(zip(subjects, grades)))
 stock = {"연필": 10, "지우개": 5, "노트": 3}        # 기존 재고
 incoming = {"지우개": 4, "노트": 7, "볼펜": 12}     # 입고 내역
 
+
+
 # stock.update({i : stock[i] + j if i in stock else j for i , j in incoming.items()})
 # print(stock)
                                     # ✅ {'연필': 10, '지우개': 9, '노트': 10, '볼펜': 12}
-                                         
-for item, qty in incoming.items():
-    stock[item] = stock.get(item, 0) + qty
+
+# 1) 클래식 for                                         
+# for item, qty in incoming.items():
+#     stock[item] = stock.get(item, 0) + qty
+
+# 2) dict 컴프리헨션
+stock.update({item:stock[item] + qty if item in stock else qty    for item, qty in incoming.items()})
+stock.update({item:stock.get(item, 0) + qty  for item, qty in incoming.items()})
+
 print(stock)
